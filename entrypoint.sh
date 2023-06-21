@@ -22,6 +22,13 @@ else
   PULL_REQUEST_REVIEWERS='-r '$INPUT_PULL_REQUEST_REVIEWERS
 fi
 
+if [ -z "$INPUT_PULL_REQUEST_ASSIGNEES" ]
+then
+  PULL_REQUEST_ASSIGNEES=$INPUT_PULL_REQUEST_ASSIGNEES
+else
+  PULL_REQUEST_ASSIGNEES='-a '$INPUT_PULL_REQUEST_ASSIGNEES
+fi
+
 CLONE_DIR=$(mktemp -d)
 
 echo "Setting git variables"
@@ -50,7 +57,8 @@ then
                -b $INPUT_DESTINATION_HEAD_BRANCH \
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
-                  $PULL_REQUEST_REVIEWERS
+                  $PULL_REQUEST_REVIEWERS \
+                  $PULL_REQUEST_ASSIGNEES
 else
   echo "No changes detected"
 fi
